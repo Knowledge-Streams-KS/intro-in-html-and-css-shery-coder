@@ -1,0 +1,87 @@
+#program for managing books in a library using dictionary in python
+
+class Book:
+    def __init__(self, title, author, ISBN, price, pages, quantity):
+        self.title = title
+        self.author = author
+        self.ISBN = ISBN
+        self.price = price
+        self.pages = pages
+        self.quantity = quantity
+
+    def book_details(self):
+        print('Title: ',self.title, '\nAuthor:', self.author,'\nISBN', self.ISBN, '\nPrice:', self.price, '\nPages: ', self.pages)
+
+class ReferenceBook(Book):
+    def __init__(self, title, author, ISBN, price, pages, type, quantity):
+        super().__init__(title, author, ISBN, price, pages, quantity)
+        self.type = type
+    
+    def ref_book_details(self):
+        print('Title: ',self.title, '\nAuthor:', self.author,'\nISBN', self.ISBN, '\nPrice:', self.price, '\nPages: ', self.pages, '\nType', self.type)
+class FictionBook(Book):
+    def __init__(self, title, author, ISBN, price, pages,quantity, genre):
+        super().__init__(title, author, ISBN, price, quantity, pages)
+        self.genre = genre
+
+    def fic_book_details(self):
+        print('Title: ',self.title, '\nAuthor:', self.author,'\nISBN', self.ISBN, '\nPrice:', self.price, '\nPages: ', self.pages, '\nGenre', self.genre)
+class Library:
+    lib = {}
+    def add_book(self, book): # for adding books in library
+        self.lib.update({book.title:book})
+
+    def remove_book(self, title): # for removing books in library
+        for book in self.lib.copy():
+            if book.lower() == title.lower():
+                del self.lib[book]
+
+    def books_in_lib(self): #for displaying books in library
+        for title, book in self.lib.items():
+            print("Name: ",book.title, "\nAuthor: ",book.author, "\nType: ", book.type, "\nPrice: ",book.price, "\nBook quantity: ", book.quantity)
+
+    def search_by_title(self, title):
+        found = False
+        for title, book in self.lib.items():
+            if book.title == title:
+                print("Name: ",book.title, "\nAuthor: ",book.author, '\nISBN', book.ISBN, "\nPrice: ",book.price, "\nQuantity: ",book.quantity, "\n")
+                found = True
+        if not found:
+            print("title not found")  
+
+d = ReferenceBook('Out of the blue', 'Majeed', 1052024, 300, 500, 'encyclopedia', 100)
+d.ref_book_details()
+c = Library()
+c.add_book(d)
+
+while(1):
+   
+    print("Select from the following options: ","\n 1. Add a new book","\n 2. Remove a book",
+           "\n 3. Search a book by title", "\n 5. Display the list of books in the library", "\n 6. Quit the program.","\n\n" )
+    inp = input("Enter the number of the task to be performed: ")
+    if (inp == "1"):
+        title = input("Name of the book: ")
+        author = input("\nAuthor of the book: ")
+        ISBN = input("\nISBN: ")
+        price = input("\nPrice of the book: ")
+        pages = input("\nPages of the book: ")
+        type = input("\nType of the book: ")
+        quantity = input("\nQuantity of the books: ")
+        d = ReferenceBook(title, author, ISBN, price, pages, quantity, type)
+        c = Library()
+        c.add_book(d)
+
+    if (inp == "2"):
+        t = input("\nName of the book to be removed: ")
+        c.remove_book(t)
+
+    if (inp == "3"):
+        t = input("Enter the title of the book:")
+        c.search_by_title(t)
+
+    if (inp == "5"):
+        c.books_in_lib()
+
+    if (inp == "6"):
+        break
+    
